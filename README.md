@@ -1,6 +1,6 @@
 # PIAS-SSM
 
-**Physics-Informed Adaptive Spectral with State Space Model** — a few-shot rolling-bearing
+**Physics-Informed Adaptive Spectral with State Space Model** -- a few-shot rolling-bearing
 fault diagnosis framework for strong-noise conditions.
 
 ## Architecture
@@ -99,30 +99,18 @@ pip install -r requirements.txt
 
 ## Data Preprocessing
 
-Download the raw datasets and convert them to the PIAS-SSM format. The default
-arguments reproduce the processed tensors used in the paper.
-
 ```bash
-# CWRU (12 kHz drive-end). The normal-baseline recordings live in a separate
-# folder, so --normal-dir is required in addition to --data-dir.
 python scripts/preprocess_cwru.py \
-    --data-dir   "/path/to/CWRU/12k Drive End Bearing Fault Data" \
-    --normal-dir "/path/to/CWRU/Normal Baseline Data" \
+    --data-dir   /path/to/CWRU/12k\ Drive\ End\ Bearing\ Fault\ Data \
+    --normal-dir /path/to/CWRU/Normal\ Baseline\ Data \
     --output     data/cwru_workbuddy_10way.pt
 
-# University of Ottawa (200 kHz, downsampled to 2 kHz)
 python scripts/preprocess_ottawa.py \
-    --raw-dir "/path/to/Ottawa" \
+    --raw-dir /path/to/Ottawa \
     --output  data/ottawa_workbuddy.pt
 ```
 
-Defaults: CWRU `--window 1024 --stride 1024 --block-size 49`; Ottawa
-`--window 2048 --stride 128`. Consecutive windows are grouped into blocks of
-`block-size` windows and each block receives its own `file_id`, so the
-leakage-safe split separates whole temporal blocks rather than individual
-windows of the same recording.
-
-The generated `.pt` files must be placed under `data/`; the format is documented in
+The generated `.pt` files are read from `data/`; the tensor format is documented in
 `data/README.md`.
 
 ## Usage
@@ -136,7 +124,7 @@ python train.py --config configs/ottawa.json
 python evaluate.py --config configs/cwru.json \
     --checkpoint outputs/CWRU/main/seed_42/checkpoint_last.pt --snr -5
 
-# Evaluate under a specific noise type (reviewer robustness study)
+# Evaluate under a specific noise type
 python evaluate.py --config configs/cwru.json \
     --checkpoint outputs/CWRU/main/seed_42/checkpoint_last.pt \
     --snr -5 --noise impulsive
@@ -154,26 +142,6 @@ All experiment settings live in a JSON file under `configs/`, parsed by
 `pias_ssm/config.py`. The main blocks are `model` (architecture and hyper-parameters),
 `episode` (N-way K-shot protocol and split), and `training` (optimiser, schedule,
 curriculum, seeds), plus `evaluation_snrs`.
-
-## Reproducibility notes
-
-- The `configs/` files encode the protocol reported in the paper. The
-  implementation is verified end-to-end: a full run reaches a parameter count of
-  **153,670 (153.7 K)**, matching the paper.
-- `scripts/preprocess_cwru.py` with its default arguments reproduces the CWRU
-  tensors used in the paper exactly in size and content (5,925 windows; labels,
-  conditions, shaft speed and fault-frequency priors identical; residual
-  differences limited to floating-point rounding and a one-window block boundary
-  in three recordings).
-- `scripts/preprocess_ottawa.py` reproduces the Ottawa tensors in size and
-  structure (8,460 windows from 60 recordings; identical labels, conditions,
-  `file_ids` and `file_id_map`; median shaft speed identical). The sample-wise
-  shape of the resampled signals and of the per-pulse speed trace depends on the
-  exact anti-aliasing/interpolation pipeline used upstream; the transcription
-  here follows the description in the paper but may differ marginally.
-- Raw datasets are not redistributed. CWRU is available from Case Western
-  Reserve University and the University of Ottawa variable-speed dataset from
-  the University of Ottawa; please cite the original sources.
 
 ## Citation
 
