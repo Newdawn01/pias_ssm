@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Experiment outputs and checkpoints
+outputs/
+*.pt
+*.pth
+
+# Data
+data/*.pt
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

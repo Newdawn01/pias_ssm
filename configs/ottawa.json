@@ -1,0 +1,49 @@
+{
+  "dataset": "Ottawa",
+  "data_path": "data/ottawa_workbuddy.pt",
+  "model": {
+    "embedding_dim": 128,
+    "wavelet_mode": "learnable",
+    "use_speed_channel": false,
+    "use_aso": true,
+    "use_physics_prior": true,
+    "aso_gate": "open",
+    "fundamental_bandwidth": 0.02,
+    "harmonic_bandwidth": 0.03,
+    "harmonic_weight": 0.5,
+    "fusion_gate_init": 0.5,
+    "num_segments": 4,
+    "ssm_layers": 1
+  },
+  "episode": {
+    "n_way": 5,
+    "n_support": 5,
+    "n_query": 15,
+    "split_ratio": 0.7,
+    "split_strategy": "file"
+  },
+  "training": {
+    "epochs": 50,
+    "episodes_per_epoch": 100,
+    "validation_episodes": 100,
+    "test_episodes": 200,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "optimizer": "adamw",
+    "scheduler": "cosine",
+    "scheduler_step_size": 20,
+    "scheduler_gamma": 0.5,
+    "checkpoint_selection": "last_epoch",
+    "gradient_clip_norm": null,
+    "train_snr_low": -5.0,
+    "train_snr_high": 20.0,
+    "curriculum_fraction": 0.6,
+    "seeds": [42, 43, 44, 45, 46, 47, 48, 49, 50, 51],
+    "device": "cuda",
+    "noise_support_during_training": true,
+    "noise_support_during_evaluation": true
+  },
+  "evaluation_snrs": [5, 3, 0, -3, -5],
+  "experiment_name": "main",
+  "noise_type": "gaussian"
+}
