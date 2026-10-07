@@ -70,7 +70,7 @@ class PIASSSMEncoder(nn.Module):
         )
         # Paper Fig. 1 topology, illustrated for the 2048-point sequence:
         # frontend [B,E,L] -> AvgPool(2) [B,E,L/2] -> ASO -> AvgPool(2)
-        # [B,E,L/4] -> SSM. CWRU uses L=1024, Ottawa L=2048.
+        # [B,E,L/4] -> SSM. Both CWRU and Ottawa use L=2048.
         self.pre_pool = nn.AvgPool1d(2, stride=2)
         if config.use_aso:
             # The ASO analyses the pre-pooled sequence, so physical frequencies

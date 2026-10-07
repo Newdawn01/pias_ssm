@@ -23,7 +23,7 @@
     "split_strategy": "file"
   },
   "training": {
-    "epochs": 50,
+    "epochs": 200,
     "episodes_per_epoch": 100,
     "validation_episodes": 100,
     "test_episodes": 200,

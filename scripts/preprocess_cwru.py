@@ -140,8 +140,8 @@ def main() -> None:
     parser.add_argument("--data-dir", type=Path, required=True)
     parser.add_argument("--normal-dir", type=Path)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--window", type=int, default=1024)
-    parser.add_argument("--stride", type=int, default=1024)
+    parser.add_argument("--window", type=int, default=2048)
+    parser.add_argument("--stride", type=int, default=2048)
     parser.add_argument("--block-size", type=int, default=49)
     args = parser.parse_args()
     preprocess(

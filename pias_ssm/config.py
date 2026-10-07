@@ -89,7 +89,7 @@ class EpisodeConfig:
 class TrainingConfig:
     """Optimization, evaluation, and reproducibility settings."""
 
-    epochs: int = 50
+    epochs: int = 200
     episodes_per_epoch: int = 100
     validation_episodes: int = 100
     test_episodes: int = 200
